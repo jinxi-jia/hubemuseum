@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>云梦简牍转译课题 - 学术寰宇 | 湖北省博物馆</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #faf7f0;
+            color: #3e3a34;
+            font-family: 'Inter', 'PingFang SC', sans-serif;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fffdf7;
+            border: 1px solid rgba(180, 150, 110, 0.2);
+            border-radius: 12px;
+            padding: 40px;
+        }
+        h1 { color: #a77b3c; margin-bottom: 20px; font-size: 28px; }
+        h2 { color: #4d3e2c; margin: 30px 0 15px 0; font-size: 20px; }
+        p { color: #5e5240; line-height: 1.8; margin-bottom: 15px; }
+        ul { padding-left: 25px; color: #5e5240; margin: 15px 0; }
+        li { margin: 10px 0; line-height: 1.6; }
+        .back-btn {
+            display: inline-block;
+            background: #a77b3c;
+            color: #fff8f0;
+            text-decoration: none;
+            padding: 10px 25px;
+            border-radius: 4px;
+            margin-top: 30px;
+            transition: 0.3s;
+        }
+        .back-btn:hover { background: #8b6530; }
+        hr { border: none; border-top: 1px solid rgba(180, 150, 110, 0.2); margin: 30px 0; }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(167, 123, 60, 0.2);
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .progress-fill {
+            width: 73%;
+            height: 100%;
+            background: #a77b3c;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🤖 “云梦简牍”转译课题</h1>
+    <p>湖北省博物馆 × 武汉大学人工智能研究院 | 课题周期：2023-2026 | 国家社科基金重大项目</p>
+    <hr>
+
+    <h2>🎯 课题介绍</h2>
+    <p>利用深度学习技术（CNN + LSTM + Transformer）对云梦睡虎地秦简进行图像识别和文字补录，解决因竹简残损导致的文字缺失问题，为简帛研究提供AI辅助工具。</p>
+
+    <h2>🛠️ 技术路线</h2>
+    <ul>
+        <li>高清红外图像采集（分辨率：2400dpi）</li>
+        <li>基于U-Net的残损区域检测</li>
+        <li>Seq2Seq + Attention 模型的残缺文字预测</li>
+        <li>专家校审与模型迭代优化</li>
+        <li>构建简帛文字标准数据集</li>
+    </ul>
+
+    <h2>📈 阶段性成果</h2>
+    <ul>
+        <li>已完成573枚简牍的高清数字化（进度：73%）</li>
+        <li>文字识别准确率达87.3%</li>
+        <li>补录完整文本段落42处</li>
+        <li>建成简帛文字标准数据集（含3.2万字形）</li>
+        <li>发表学术论文3篇（含SCI一篇）</li>
+    </ul>
+
+    <div class="progress-bar">
+        <div class="progress-fill"></div>
+    </div>
+    <p style="text-align: center; font-size: 13px;">📊 简牍数字化进度：73%（已完成573枚/目标785枚）</p>
+
+    <h2>👥 合作团队</h2>
+    <ul>
+        <li>湖北省博物馆：提供简牍原件与释文校审</li>
+        <li>武汉大学人工智能研究院：算法开发与模型训练</li>
+        <li>中国社会科学院考古研究所：学术顾问</li>
+    </ul>
+
+    <h2>📅 下一步计划</h2>
+    <ul>
+        <li>2025年Q2：完成全部785枚简牍高清数字化</li>
+        <li>2025年Q4：上线公开检索平台测试版</li>
+        <li>2026年Q1：课题结项并发布最终研究报告</li>
+    </ul>
+
+    <a href="academic.html" class="back-btn">← 返回学术主页</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>服务中心 - 荆楚·藏珍 | 湖北省博物馆数字平台</title>
+
+    <!-- SEO: 标准链接 -->
+    <link rel="canonical" href="https://yourmuseum.com/service.html" />
+
+    <!-- SEO: 结构化数据 (JSON-LD) -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "湖北省博物馆",
+            "description": "湖北省博物馆参观服务，提供开放信息、门票预约、智慧导览、交通指南等服务。",
+            "url": "https://yourmuseum.com/service.html",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "武汉",
+                "addressRegion": "湖北",
+                "addressCountry": "CN",
+                "streetAddress": "武昌区东湖路156号"
+            },
+            "openingHours": ["Tu-Su 09:00-17:00"],
+            "telephone": "+86 27 86794127"
+        }
+    </script>
+
+    <!-- 社交分享优化 -->
+    <meta property="og:title" content="服务中心 - 荆楚·藏珍 | 湖北省博物馆" />
+    <meta property="og:description" content="湖北省博物馆参观服务，开放时间、门票预约、智慧导览、交通指南一站式获取。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://picsum.photos/id/20/1200/630" />
+    <meta property="og:url" content="https://yourmuseum.com/service.html" />
+    <meta property="og:locale" content="zh_CN" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="服务中心 - 荆楚·藏珍" />
+    <meta name="twitter:description" content="湖北省博物馆参观服务，开放时间、门票预约、智慧导览。" />
+    <meta name="twitter:image" content="https://picsum.photos/id/20/1200/630" />
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* 滚动进度条 */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: transparent;
+            z-index: 1001;
+        }
+        .progress-bar-page {
+            height: 3px;
+            background: linear-gradient(90deg, #a77b3c, #dbbc7c);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        body {
+            background: #faf7f0;
+            color: #3e3a34;
+            font-family: 'Inter', 'PingFang SC', sans-serif;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(rgba(167, 123, 60, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .nav-luxury {
+            background: rgba(250, 247, 240, 0.92);
+            border-bottom: 1px solid rgba(180, 150, 110, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+        }
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            flex-wrap: wrap;
+        }
+        .brand h1 {
+            font-size: 24px;
+            color: #a77b3c;
+            margin: 0;
+            letter-spacing: 3px;
+            font-weight: 600;
+        }
+        .brand p {
+            font-size: 10px;
+            color: #8e8068;
+            margin: 2px 0 0 0;
+            letter-spacing: 1px;
+        }
+        .nav-links a {
+            color: #5e5240;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 15px;
+            transition: color 0.3s;
+            padding-bottom: 5px;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #a77b3c;
+            border-bottom: 2px solid #a77b3c;
+        }
+
+        .jump-links-section {
+            background: #fffdf7;
+            border-bottom: 1px solid rgba(180, 150, 110, 0.2);
+            padding: 12px 0;
+            position: sticky;
+            top: 70px;
+            z-index: 999;
+        }
+        .jump-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .jump-link {
+            color: #5e5240;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 5px 0;
+            transition: 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+        .jump-link:hover {
+            color: #a77b3c;
+            border-bottom-color: #a77b3c;
+        }
+
+        .hero {
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .hero h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 48px;
+            color: #3d3224;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.6);
+        }
+        .hero p {
+            color: #5e5240;
+            letter-spacing: 2px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .hero-divider {
+            width: 80px;
+            height: 2px;
+            background: #a77b3c;
+            margin: 20px auto;
+        }
+
+        .content-section {
+            max-width: 1000px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-card {
+            background: #fffdf7;
+            border: 1px solid rgba(180, 150, 110, 0.2);
+            padding: 35px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        .info-card:hover {
+            border-color: #a77b3c;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .section-title {
+            color: #a77b3c;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 24px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title::before {
+            content: "";
+            display: block;
+            width: 4px;
+            height: 24px;
+            background: #a77b3c;
+            margin-right: 12px;
+        }
+
+        .info-subtitle {
+            color: #a77b3c;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .info-text {
+            color: #8e8068;
+            line-height: 1.8;
+            font-size: 14px;
+        }
+
+        .btn-reserve {
+            display: inline-block;
+            background: #a77b3c;
+            color: #fff8f0;
+            padding: 12px 30px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-top: 15px;
+            transition: 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-reserve:hover {
+            background: #8b6530;
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #a77b3c;
+            color: #a77b3c;
+        }
+        .btn-outline:hover {
+            background: #a77b3c;
+            color: #fff8f0;
+        }
+
+        ul {
+            list-style: none;
+            color: #8e8068;
+        }
+        li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(180, 150, 110, 0.1);
+        }
+
+        /* ✅ 新增：手风琴菜单样式 */
+        .faq-section {
+            margin-top: 20px;
+        }
+        .accordion-item {
+            border-bottom: 1px solid rgba(180, 150, 110, 0.25);
+        }
+        .accordion-header {
+            background: transparent;
+            padding: 18px 10px;
+            width: 100%;
+            text-align: left;
+            font-size: 16px;
+            font-weight: 600;
+            color: #4d3e2c;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: none;
+            font-family: inherit;
+            transition: 0.2s;
+        }
+        .accordion-header:hover {
+            color: #a77b3c;
+        }
+        .accordion-header .icon {
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+        .accordion-header.active .icon {
+            transform: rotate(45deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            padding: 0 10px;
+            color: #8e8068;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        .accordion-content.show {
+            max-height: 300px;
+            padding-bottom: 20px;
+        }
+
+        /* 联系方式卡片 */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .contact-item {
+            text-align: center;
+            padding: 25px;
+            background: rgba(167, 123, 60, 0.03);
+            border-radius: 12px;
+        }
+        .contact-item .icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+        .contact-item h4 {
+            color: #4d3e2c;
+            margin-bottom: 8px;
+        }
+        .contact-item p {
+            color: #8e8068;
+            font-size: 14px;
+        }
+
+        /* 地图占位 */
+        .map-placeholder {
+            background: linear-gradient(135deg, #e8e0d0 0%, #d4c8b0 100%);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            color: #5e5240;
+            margin-top: 20px;
+        }
+
+        /* 模态框样式 */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(250, 247, 240, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-box {
+            background: #fffdf7;
+            border: 1px solid #a77b3c;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 550px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 40px;
+            transform: scale(0.9);
+            transition: 0.4s;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+        .modal-box h3 {
+            color: #a77b3c;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+        .modal-box p {
+            color: #5e5240;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        .close-modal {
+            background: #a77b3c;
+            color: #fff8f0;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .close-modal:hover {
+            background: #8b6530;
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #a77b3c;
+            color: #fff8f0;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: bold;
+            z-index: 2001;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .toast-msg.show {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 36px; }
+            .jump-links-section { top: 58px; }
+            .jump-container { gap: 15px; }
+            .jump-link { font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress-container">
+    <div class="progress-bar-page" id="progressBarPage"></div>
+</div>
+
+<nav class="nav-luxury">
+    <div class="nav-container">
+        <div class="brand">
+            <h1>荆楚·藏珍</h1>
+            <p>HUBEI PROVINCIAL MUSEUM</p>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">首境</a>
+            <a href="exhibition.html">云梦典藏</a>
+            <a href="treasures.html">灵境展览</a>
+            <a href="academic.html">学术寰宇</a>
+            <a href="service.html" class="active">服务</a>
+            <a href="login.html" id="nav-login">登录</a>
+        </div>
+    </div>
+</nav>
+
+<div class="jump-links-section">
+    <div class="jump-container">
+        <a href="#hero-section" class="jump-link">◈ 参观服务</a>
+        <a href="#opening-info" class="jump-link">◈ 开放信息</a>
+        <a href="#ticket-guide" class="jump-link">◈ 门票预约</a>
+        <a href="#guide-service" class="jump-link">◈ 智慧导览</a>
+        <a href="#faq-section" class="jump-link">◈ 常见问题</a>
+        <a href="#contact-section" class="jump-link">◈ 联系我们</a>
+    </div>
+</div>
+
+<div class="hero" id="hero-section">
+    <h1 data-aos="fade-up">参观服务</h1>
+    <div class="hero-divider" data-aos="fade-up" data-aos-delay="100"></div>
+    <p data-aos="fade-up" data-aos-delay="200">欢迎莅临，期待与您共赴千年的荆楚之约</p>
+</div>
+
+<!-- 开放信息区域 -->
+<div class="content-section" id="opening-info">
+    <div class="info-card" data-aos="fade-up">
+        <h2 class="section-title">📅 开放信息</h2>
+        <div class="info-grid">
+            <div>
+                <p class="info-subtitle">🕘 开放时间</p>
+                <ul>
+                    <li>周二至周日：09:00 - 17:00</li>
+                    <li>周一：闭馆维护（法定节假日除外）</li>
+                    <li>停止入馆时间：16:00</li>
+                    <li>节假日延长开放另行通知</li>
+                </ul>
+            </div>
+            <div>
+                <p class="info-subtitle">📍 交通指南</p>
+                <p class="info-text">地址：湖北省武汉市武昌区东湖路156号</p>
+                <p class="info-text" style="margin-top: 8px;">🚇 地铁8号线「省博湖北日报站」A出口，步行5分钟可达</p>
+                <p class="info-text">🚌 公交：14路、402路、552路、709路「省博物馆站」</p>
+                <p class="info-text">🅿️ 自驾：设有地下停车场，建议提前预约停车位</p>
+            </div>
+        </div>
+        <button class="btn-reserve" style="margin-top: 20px;" onclick="showRouteModal()">🗺️ 查看详细路线</button>
+    </div>
+</div>
+
+<!-- 门票预约 & 智慧导览 区域 -->
+<div class="content-section" id="ticket-guide">
+    <div class="info-grid">
+        <div class="info-card" data-aos="fade-up" data-aos-delay="100">
+            <h2 class="section-title">🎫 门票预约</h2>
+            <p class="info-text" style="margin-bottom: 15px;">实行实名制免费预约参观。请提前在“湖北省博物馆”小程序或官网进行预约，凭身份证入馆。</p>
+            <p class="info-text" style="margin-bottom: 15px; font-size: 13px;">📌 可提前7天预约，每日限额8000人，建议尽早预约。</p>
+            <button class="btn-reserve" onclick="showTicketModal()">立即预约门票 →</button>
+        </div>
+        <div class="info-card" data-aos="fade-up" data-aos-delay="200">
+            <h2 class="section-title">🥽 智慧导览</h2>
+            <p class="info-text" style="margin-bottom: 15px;">提供AR智能眼镜租赁与AI语音讲解服务，入馆后凭身份证在游客中心办理。</p>
+            <p class="info-text" style="margin-bottom: 15px;">支持中、英、日、韩四国语言，深度解读50+重点文物。</p>
+            <button class="btn-reserve btn-outline" onclick="showGuideModal()">预约导览设备 →</button>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ 新增：常见问题解答（手风琴菜单） -->
+<div class="content-section" id="faq-section">
+    <div class="info-card" data-aos="fade-up">
+        <h2 class="section-title">❓ 常见问题解答</h2>
+        <div class="faq-section">
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>📌 参观需要预约吗？如何预约？</span>
+                    <span class="icon">+</span>
+                </button>
+                <div class="accordion-content">
+                    需要实名制免费预约。可通过「湖北省博物馆」官方微信小程序或官网提前7天进行预约，参观当日凭身份证原件入馆。
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>📌 可以带相机或三脚架吗？</span>
+                    <span class="icon">+</span>
+                </button>
+                <div class="accordion-content">
+                    允许个人拍照，但请勿使用闪光灯，避免对文物造成损害。三脚架、自拍杆等专业设备需提前申请，商业拍摄需联系相关部门。
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>📌 馆内是否有餐饮服务？</span>
+                    <span class="icon">+</span>
+                </button>
+                <div class="accordion-content">
+                    馆内设有咖啡厅和文创商店，提供简餐、饮品和特色文创产品。参观结束后可前往休息区用餐。
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>📌 是否有无障碍设施？</span>
+                    <span class="icon">+</span>
+                </button>
+                <div class="accordion-content">
+                    馆内设有无障碍通道、轮椅租赁服务、无障碍卫生间等设施。如有特殊需求，可提前致电游客中心：027-86794127。
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>📌 可以寄存行李吗？</span>
+                    <span class="icon">+</span>
+                </button>
+                <div class="accordion-content">
+                    游客中心提供免费行李寄存服务，大件行李箱可寄存，贵重物品请随身携带。
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ 新增：联系我们区域 -->
+<div class="content-section" id="contact-section">
+    <div class="info-card" data-aos="fade-up">
+        <h2 class="section-title">📞 联系我们</h2>
+        <div class="contact-grid">
+            <div class="contact-item">
+                <div class="icon">📞</div>
+                <h4>咨询电话</h4>
+                <p>027-86794127</p>
+                <p style="font-size: 12px;">周二至周日 9:00-16:30</p>
+            </div>
+            <div class="contact-item">
+                <div class="icon">📧</div>
+                <h4>电子邮箱</h4>
+                <p>service@hubeimuseum.cn</p>
+                <p style="font-size: 12px;">一般咨询</p>
+            </div>
+            <div class="contact-item">
+                <div class="icon">💬</div>
+                <h4>官方微信</h4>
+                <p>湖北省博物馆</p>
+                <p style="font-size: 12px;">获取最新展览资讯</p>
+            </div>
+            <div class="contact-item">
+                <div class="icon">📱</div>
+                <h4>官方微博</h4>
+                <p>@湖北省博物馆</p>
+                <p style="font-size: 12px;">互动交流</p>
+            </div>
+        </div>
+
+        <!-- 简易地图占位 -->
+        <div class="map-placeholder">
+            <div style="font-size: 48px; margin-bottom: 10px;">📍</div>
+            <p><strong>湖北省博物馆</strong></p>
+            <p>武汉市武昌区东湖路156号</p>
+            <p style="font-size: 12px; margin-top: 10px;">地铁8号线「省博湖北日报站」A出口</p>
+        </div>
+    </div>
+</div>
+
+<!-- 模态框 -->
+<div class="modal-overlay" id="modal" onclick="closeModal()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <h3 id="modalTitle"></h3>
+        <div id="modalContent"></div>
+        <button class="close-modal" onclick="closeModal()">关闭</button>
+    </div>
+</div>
+
+<div class="toast-msg" id="toastMsg">已复制</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 1000, once: true });
+
+    // 滚动进度条
+    window.addEventListener('scroll', function() {
+        const winScroll = document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        const progressBar = document.getElementById('progressBarPage');
+        if (progressBar) progressBar.style.width = scrolled + '%';
+    });
+
+    // 手风琴菜单函数
+    function toggleAccordion(btn) {
+        const content = btn.nextElementSibling;
+        const isActive = btn.classList.contains('active');
+
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            if (header !== btn) {
+                header.classList.remove('active');
+                header.nextElementSibling.classList.remove('show');
+            }
+        });
+
+        if (!isActive) {
+            btn.classList.add('active');
+            content.classList.add('show');
+        } else {
+            btn.classList.remove('active');
+            content.classList.remove('show');
+        }
+    }
+
+    // 模态框内容
+    function showRouteModal() {
+        document.getElementById('modalTitle').innerHTML = '🗺️ 详细交通路线';
+        document.getElementById('modalContent').innerHTML = `
+            <p><strong>📍 地址：</strong>湖北省武汉市武昌区东湖路156号</p>
+            <p><strong>🚇 地铁：</strong>8号线「省博湖北日报站」A出口，步行约5分钟</p>
+            <p><strong>🚌 公交：</strong>14路、402路、552路、709路、810路「省博物馆站」下车</p>
+            <p><strong>🚗 自驾：</strong>导航至“湖北省博物馆”，设有地下停车场（停车位有限，建议地铁出行）</p>
+            <p><strong>🚲 共享单车：</strong>东湖路沿线设有多个停车点</p>
+            <hr style="margin: 20px 0; border-color: rgba(180,150,110,0.2);">
+            <p>📞 咨询电话：027-86794127</p>
+        `;
+        document.getElementById('modal').classList.add('active');
+    }
+
+    function showTicketModal() {
+        document.getElementById('modalTitle').innerHTML = '🎫 门票预约指南';
+        document.getElementById('modalContent').innerHTML = `
+            <p><strong>预约方式：</strong></p>
+            <ul style="padding-left: 20px; color:#5e5240;">
+                <li>1. 微信搜索「湖北省博物馆」官方小程序</li>
+                <li>2. 访问官网 https://www.hubeimuseum.cn</li>
+                <li>3. 现场扫码预约（名额有限，建议提前预约）</li>
+            </ul>
+            <p><strong>预约须知：</strong></p>
+            <ul style="padding-left: 20px; color:#5e5240;">
+                <li>可提前7天实名预约</li>
+                <li>每日限额8000人（上午4000，下午4000）</li>
+                <li>凭身份证原件入馆，无需取票</li>
+                <li>儿童需由家长代为预约</li>
+            </ul>
+            <p>🔗 预约链接：<a href="#" style="color:#a77b3c;">https://www.hubeimuseum.cn/book</a></p>
+        `;
+        document.getElementById('modal').classList.add('active');
+    }
+
+    function showGuideModal() {
+        document.getElementById('modalTitle').innerHTML = '🥽 智慧导览设备预约';
+        document.getElementById('modalContent').innerHTML = `
+            <p><strong>设备类型：</strong></p>
+            <ul style="padding-left: 20px; color:#5e5240;">
+                <li>AR智能眼镜：沉浸式体验，3D重现文物原貌</li>
+                <li>AI语音讲解器：支持中/英/日/韩四国语言</li>
+                <li>手机小程序导览：免费使用，扫码即听</li>
+            </ul>
+            <p><strong>租赁方式：</strong></p>
+            <ul style="padding-left: 20px; color:#5e5240;">
+                <li>入馆后凭身份证在游客中心办理</li>
+                <li>AR眼镜：50元/次</li>
+                <li>语音讲解器：20元/次</li>
+                <li>押金：200元（归还设备时退还）</li>
+            </ul>
+            <p><strong>预约建议：</strong>节假日期间设备紧张，建议提前电话预留：027-86794127</p>
+        `;
+        document.getElementById('modal').classList.add('active');
+    }
+
+    function closeModal() {
+        document.getElementById('modal').classList.remove('active');
+    }
+
+    // 登录联动
+    window.addEventListener('DOMContentLoaded', () => {
+        const navLogin = document.getElementById('nav-login');
+        if (navLogin && localStorage.getItem('isLoggedIn') === 'true') {
+            const user = localStorage.getItem('username');
+            navLogin.innerText = '欢迎, ' + user;
+            navLogin.href = '#';
+            navLogin.onclick = function(e) {
+                e.preventDefault();
+                if (confirm('确定要退出登录吗？')) {
+                    localStorage.clear();
+                    location.reload();
+                }
+            };
+        }
+    });
+</script>
+</body>
+</html>

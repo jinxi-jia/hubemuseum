@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>用户登录 - 荆楚·藏珍 | 湖北省博物馆数字平台</title>
+
+    <!-- SEO: 标准链接 -->
+    <link rel="canonical" href="https://yourmuseum.com/login.html" />
+
+    <!-- SEO: 结构化数据 (JSON-LD) -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "用户登录",
+            "description": "荆楚·藏珍数字平台用户登录，支持账号密码登录、手机验证码登录。",
+            "url": "https://yourmuseum.com/login.html"
+        }
+    </script>
+
+    <!-- 社交分享优化 -->
+    <meta property="og:title" content="用户登录 - 荆楚·藏珍 | 湖北省博物馆" />
+    <meta property="og:description" content="登录荆楚·藏珍数字平台，预约门票、收藏文物、参与互动。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://picsum.photos/id/20/1200/630" />
+    <meta property="og:url" content="https://yourmuseum.com/login.html" />
+    <meta property="og:locale" content="zh_CN" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="用户登录 - 荆楚·藏珍" />
+    <meta name="twitter:description" content="登录荆楚·藏珍数字平台。" />
+    <meta name="twitter:image" content="https://picsum.photos/id/20/1200/630" />
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* 滚动进度条 */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: transparent;
+            z-index: 1001;
+        }
+        .progress-bar-page {
+            height: 3px;
+            background: linear-gradient(90deg, #a77b3c, #dbbc7c);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* 统一浅米色背景 */
+        body {
+            background: #faf7f0;
+            color: #3e3a34;
+            font-family: 'Inter', 'PingFang SC', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* 背景纹理 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(rgba(167, 123, 60, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* 导航栏（浅色版） */
+        .nav-luxury {
+            background: rgba(250, 247, 240, 0.92);
+            border-bottom: 1px solid rgba(180, 150, 110, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+        }
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            flex-wrap: wrap;
+        }
+        .brand h1 {
+            font-size: 24px;
+            color: #a77b3c;
+            margin: 0;
+            letter-spacing: 3px;
+            font-weight: 600;
+        }
+        .brand p {
+            font-size: 10px;
+            color: #8e8068;
+            margin: 2px 0 0 0;
+            letter-spacing: 1px;
+        }
+        .nav-links a {
+            color: #5e5240;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 15px;
+            transition: color 0.3s;
+            padding-bottom: 5px;
+        }
+        .nav-links a:hover {
+            color: #a77b3c;
+            border-bottom: 2px solid #a77b3c;
+        }
+
+        /* 登录框布局 */
+        .login-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .login-box {
+            width: 100%;
+            max-width: 450px;
+            background: #fffdf7;
+            border: 1px solid rgba(180, 150, 110, 0.3);
+            padding: 45px 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: 0.3s;
+        }
+        .login-box:hover {
+            border-color: #a77b3c;
+            box-shadow: 0 25px 50px rgba(167,123,60,0.1);
+        }
+
+        /* 登录Tab切换 */
+        .login-tabs {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(180, 150, 110, 0.2);
+            padding-bottom: 10px;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: #8e8068;
+            cursor: pointer;
+            padding: 8px 0;
+            transition: 0.3s;
+            position: relative;
+        }
+        .tab-btn.active {
+            color: #a77b3c;
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -11px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #a77b3c;
+        }
+        .tab-pane {
+            display: none;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+
+        h2 {
+            color: #4d3e2c;
+            font-family: 'Noto Serif SC', serif;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        .subtitle {
+            font-size: 13px;
+            color: #8e8068;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            color: #5e5240;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .input-group input {
+            width: 100%;
+            background: rgba(167, 123, 60, 0.03);
+            border: 1px solid rgba(180, 150, 110, 0.25);
+            padding: 14px;
+            color: #3e3a34;
+            border-radius: 8px;
+            outline: none;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+        .input-group input:focus {
+            border-color: #a77b3c;
+            background: rgba(167, 123, 60, 0.05);
+        }
+
+        /* 验证码输入行 */
+        .code-row {
+            display: flex;
+            gap: 12px;
+        }
+        .code-row input {
+            flex: 1;
+        }
+        .get-code-btn {
+            background: rgba(167, 123, 60, 0.1);
+            border: 1px solid rgba(167, 123, 60, 0.3);
+            padding: 0 20px;
+            border-radius: 8px;
+            color: #a77b3c;
+            font-size: 13px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+        .get-code-btn:hover {
+            background: #a77b3c;
+            color: #fff8f0;
+        }
+        .get-code-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: #a77b3c;
+            color: #fff8f0;
+            border: none;
+            padding: 14px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+        .btn-submit:hover {
+            background: #8b6530;
+            transform: translateY(-2px);
+        }
+
+        .extra-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            font-size: 13px;
+        }
+        .extra-links a {
+            color: #8e8068;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .extra-links a:hover {
+            color: #a77b3c;
+        }
+
+        /* 社交登录 */
+        .social-login {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(180, 150, 110, 0.15);
+        }
+        .social-login p {
+            font-size: 12px;
+            color: #8e8068;
+            margin-bottom: 15px;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(167, 123, 60, 0.08);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 18px;
+            transition: 0.3s;
+            border: 1px solid rgba(180, 150, 110, 0.2);
+            color: #a77b3c;
+        }
+        .social-icon:hover {
+            background: #a77b3c;
+            color: #fff8f0;
+            transform: translateY(-2px);
+        }
+
+        /* 欢迎区 */
+        .welcome-area {
+            margin-bottom: 30px;
+        }
+        .welcome-avatar {
+            font-size: 56px;
+            margin-bottom: 15px;
+        }
+
+        /* 提示消息 */
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #a77b3c;
+            color: #fff8f0;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: bold;
+            z-index: 2001;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .toast-msg.show {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .login-box { padding: 35px 25px; margin: 20px; }
+            .social-icons { gap: 15px; }
+            .code-row { flex-wrap: wrap; }
+            .get-code-btn { padding: 12px; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 滚动进度条 -->
+<div class="progress-container">
+    <div class="progress-bar-page" id="progressBarPage"></div>
+</div>
+
+<nav class="nav-luxury">
+    <div class="nav-container">
+        <div class="brand">
+            <h1>荆楚·藏珍</h1>
+            <p>HUBEI PROVINCIAL MUSEUM</p>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">首境</a>
+            <a href="exhibition.html">云梦典藏</a>
+            <a href="treasures.html">灵境展览</a>
+            <a href="academic.html">学术寰宇</a>
+            <a href="service.html">服务</a>
+            <a href="login.html" style="color:#a77b3c; border-left: 1px solid #a77b3c; padding-left: 15px; margin-left: 15px;">登录</a>
+        </div>
+    </div>
+</nav>
+
+<div class="login-wrapper">
+    <div class="login-box" data-aos="zoom-in" data-aos-duration="800">
+
+        <!-- 欢迎区域 -->
+        <div class="welcome-area">
+            <div class="welcome-avatar">🏛️</div>
+            <h2>欢迎回来</h2>
+            <p class="subtitle">登录荆楚·藏珍，开启数字文化之旅</p>
+        </div>
+
+        <!-- Tab切换 -->
+        <div class="login-tabs">
+            <button class="tab-btn active" onclick="switchTab('password')">账号密码登录</button>
+            <button class="tab-btn" onclick="switchTab('sms')">手机验证码登录</button>
+        </div>
+
+        <!-- 账号密码登录表单 -->
+        <div id="passwordTab" class="tab-pane active">
+            <form id="passwordLoginForm">
+                <div class="input-group">
+                    <label>📱 手机号 / 邮箱</label>
+                    <input type="text" id="username" placeholder="admin / 手机号" required>
+                </div>
+                <div class="input-group">
+                    <label>🔒 密码</label>
+                    <input type="password" id="password" placeholder="123456" required>
+                </div>
+                <button type="submit" class="btn-submit">登 录</button>
+            </form>
+        </div>
+
+        <!-- 手机验证码登录表单 -->
+        <div id="smsTab" class="tab-pane">
+            <form id="smsLoginForm">
+                <div class="input-group">
+                    <label>📱 手机号</label>
+                    <input type="tel" id="phoneNumber" placeholder="请输入手机号" required>
+                </div>
+                <div class="input-group">
+                    <label>📨 验证码</label>
+                    <div class="code-row">
+                        <input type="text" id="smsCode" placeholder="请输入验证码" required>
+                        <button type="button" class="get-code-btn" id="getCodeBtn">获取验证码</button>
+                    </div>
+                </div>
+                <button type="submit" class="btn-submit">验证码登录</button>
+            </form>
+        </div>
+
+        <!-- 额外链接 -->
+        <div class="extra-links">
+            <a href="#" onclick="showForgetModal()">忘记密码？</a>
+            <a href="#" onclick="showRegisterModal()">立即注册</a>
+        </div>
+
+        <!-- 社交登录 -->
+        <div class="social-login">
+            <p>其他登录方式</p>
+            <div class="social-icons">
+                <a href="#" class="social-icon" onclick="socialLogin('wechat')">💚</a>
+                <a href="#" class="social-icon" onclick="socialLogin('weibo')">📱</a>
+                <a href="#" class="social-icon" onclick="socialLogin('alipay')">💰</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 模态框（用于忘记密码/注册） -->
+<div class="modal-overlay" id="modal" onclick="closeModal()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <h3 id="modalTitle"></h3>
+        <div id="modalContent"></div>
+        <button class="close-modal" onclick="closeModal()">关闭</button>
+    </div>
+</div>
+
+<!-- 提示消息 -->
+<div class="toast-msg" id="toastMsg">操作成功</div>
+
+<style>
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(250, 247, 240, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 2000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s;
+    }
+    .modal-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .modal-box {
+        background: #fffdf7;
+        border: 1px solid #a77b3c;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 500px;
+        max-height: 80vh;
+        overflow-y: auto;
+        padding: 40px;
+        transform: scale(0.9);
+        transition: 0.4s;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+    }
+    .modal-overlay.active .modal-box {
+        transform: scale(1);
+    }
+    .modal-box h3 {
+        color: #a77b3c;
+        margin-bottom: 20px;
+        font-size: 22px;
+    }
+    .modal-box p {
+        color: #5e5240;
+        line-height: 1.8;
+        margin-bottom: 15px;
+    }
+    .modal-box input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid rgba(180,150,110,0.3);
+        border-radius: 8px;
+        margin: 15px 0;
+        background: #fffdf7;
+    }
+    .close-modal {
+        background: #a77b3c;
+        color: #fff8f0;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 20px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .close-modal:hover {
+        background: #8b6530;
+    }
+</style>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ once: true });
+
+    // 滚动进度条
+    window.addEventListener('scroll', function() {
+        const winScroll = document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        const progressBar = document.getElementById('progressBarPage');
+        if (progressBar) progressBar.style.width = scrolled + '%';
+    });
+
+    // Tab切换功能
+    function switchTab(type) {
+        const passwordTab = document.getElementById('passwordTab');
+        const smsTab = document.getElementById('smsTab');
+        const btns = document.querySelectorAll('.tab-btn');
+
+        btns.forEach(btn => btn.classList.remove('active'));
+
+        if (type === 'password') {
+            passwordTab.classList.add('active');
+            btns[0].classList.add('active');
+        } else {
+            smsTab.classList.add('active');
+            btns[1].classList.add('active');
+        }
+    }
+
+    // 显示提示消息
+    function showToast(message, isError = false) {
+        const toast = document.getElementById('toastMsg');
+        toast.textContent = message;
+        toast.style.background = isError ? '#c0392b' : '#a77b3c';
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+            toast.style.background = '#a77b3c';
+        }, 2500);
+    }
+
+    // 账号密码登录（支持多个测试账号）
+    document.getElementById('passwordLoginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const u = document.getElementById('username').value.trim();
+        const p = document.getElementById('password').value;
+
+        // 测试账号：admin/123456, user/user123, 手机号登录
+        if ((u === 'admin' && p === '123456') || (u === 'user' && p === 'user123') || (u === '13888888888' && p === '123456')) {
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('username', u === 'admin' ? '君子女史' : (u === 'user' ? '楚文化爱好者' : u));
+            showToast('登录成功！正在跳转...');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+        } else {
+            showToast('账号或密码错误，试试 admin/123456', true);
+        }
+    });
+
+    // 验证码登录逻辑
+    let countdown = 0;
+    let timer = null;
+
+    document.getElementById('getCodeBtn').addEventListener('click', function() {
+        const phone = document.getElementById('phoneNumber').value.trim();
+        if (!phone || !/^1[3-9]\d{9}$/.test(phone)) {
+            showToast('请输入正确的11位手机号', true);
+            return;
+        }
+        if (countdown > 0) {
+            showToast(`请等待${countdown}秒后重试`, true);
+            return;
+        }
+        // 模拟发送验证码
+        showToast('验证码已发送：123456（演示）');
+        localStorage.setItem('smsCode_demo', '123456');
+        countdown = 60;
+        const btn = document.getElementById('getCodeBtn');
+        btn.disabled = true;
+        btn.classList.add('disabled');
+        timer = setInterval(() => {
+            countdown--;
+            if (countdown <= 0) {
+                clearInterval(timer);
+                btn.disabled = false;
+                btn.classList.remove('disabled');
+                btn.textContent = '获取验证码';
+                countdown = 0;
+            } else {
+                btn.textContent = `${countdown}秒后重试`;
+            }
+        }, 1000);
+    });
+
+    document.getElementById('smsLoginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const phone = document.getElementById('phoneNumber').value.trim();
+        const code = document.getElementById('smsCode').value.trim();
+        const demoCode = localStorage.getItem('smsCode_demo') || '123456';
+
+        if (!phone || !/^1[3-9]\d{9}$/.test(phone)) {
+            showToast('请输入正确的手机号', true);
+            return;
+        }
+        if (code !== demoCode) {
+            showToast('验证码错误', true);
+            return;
+        }
+
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('username', phone);
+        showToast('登录成功！正在跳转...');
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1000);
+    });
+
+    // 模态框功能
+    function showForgetModal() {
+        document.getElementById('modalTitle').innerHTML = '🔐 找回密码';
+        document.getElementById('modalContent').innerHTML = `
+            <p>请输入您注册时使用的手机号或邮箱，我们将发送重置链接给您。</p>
+            <input type="text" placeholder="手机号 / 邮箱" id="resetInput">
+            <button class="close-modal" style="margin-top:0; width:100%;" onclick="sendResetLink()">发送重置链接</button>
+        `;
+        document.getElementById('modal').classList.add('active');
+    }
+
+    function sendResetLink() {
+        const input = document.getElementById('resetInput').value;
+        if (input) {
+            showToast('重置链接已发送至 ' + input);
+            closeModal();
+        } else {
+            showToast('请输入手机号或邮箱', true);
+        }
+    }
+
+    function showRegisterModal() {
+        document.getElementById('modalTitle').innerHTML = '📝 立即注册';
+        document.getElementById('modalContent').innerHTML = `
+            <p>注册荆楚·藏珍账号，享受更多数字文化服务。</p>
+            <input type="text" placeholder="手机号" id="regPhone">
+            <input type="text" placeholder="验证码" id="regCode" style="margin-top:0;">
+            <button class="close-modal" style="margin-top:0; width:100%;" onclick="doRegister()">注册</button>
+            <p style="font-size:12px; margin-top:15px;">点击注册即表示同意《用户协议》</p>
+        `;
+        document.getElementById('modal').classList.add('active');
+    }
+
+    function doRegister() {
+        const phone = document.getElementById('regPhone').value;
+        const code = document.getElementById('regCode').value;
+        if (phone && code === '123456') {
+            showToast('注册成功！请登录');
+            closeModal();
+        } else {
+            showToast('验证码错误（演示验证码：123456）', true);
+        }
+    }
+
+    function socialLogin(type) {
+        const names = { wechat: '微信', weibo: '微博', alipay: '支付宝' };
+        showToast(`正在跳转${names[type]}授权登录...`);
+        setTimeout(() => {
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('username', `${names[type]}用户`);
+            window.location.href = 'index.html';
+        }, 1000);
+    }
+
+    function closeModal() {
+        document.getElementById('modal').classList.remove('active');
+    }
+</script>
+</body>
+</html>

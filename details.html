@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>藏品详情 - 荆楚·藏珍 | 湖北省博物馆数字平台</title>
+
+    <!-- SEO: 结构化数据 -->
+    <script type="application/ld+json" id="schemaData"></script>
+
+    <!-- 社交分享优化 -->
+    <meta property="og:title" content="藏品详情 - 荆楚·藏珍" id="ogTitle" />
+    <meta property="og:description" content="探索荆楚瑰宝，感受千年文脉" id="ogDesc" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="" id="ogImage" />
+    <meta property="og:url" content="https://yourmuseum.com/details.html" id="ogUrl" />
+    <meta property="og:locale" content="zh_CN" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="藏品详情 - 荆楚·藏珍" id="twitterTitle" />
+    <meta name="twitter:description" content="探索荆楚瑰宝，感受千年文脉" id="twitterDesc" />
+    <meta name="twitter:image" content="" id="twitterImage" />
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: transparent;
+            z-index: 1001;
+        }
+        .progress-bar-page {
+            height: 3px;
+            background: linear-gradient(90deg, #a77b3c, #dbbc7c);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        body {
+            background: #faf7f0;
+            color: #3e3a34;
+            font-family: 'Inter', 'PingFang SC', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(rgba(167, 123, 60, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .nav-luxury {
+            background: rgba(250, 247, 240, 0.92);
+            border-bottom: 1px solid rgba(180, 150, 110, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+        }
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            flex-wrap: wrap;
+        }
+        .brand h1 {
+            font-size: 24px;
+            color: #a77b3c;
+            margin: 0;
+            letter-spacing: 3px;
+            font-weight: 600;
+        }
+        .brand p {
+            font-size: 10px;
+            color: #8e8068;
+            margin: 2px 0 0 0;
+            letter-spacing: 1px;
+        }
+        .nav-links a {
+            color: #5e5240;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 15px;
+            transition: color 0.3s;
+            padding-bottom: 5px;
+        }
+        .nav-links a:hover {
+            color: #a77b3c;
+            border-bottom: 2px solid #a77b3c;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            border: 1px solid rgba(167, 123, 60, 0.3);
+            padding: 10px 25px;
+            border-radius: 40px;
+            color: #a77b3c;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+            margin-bottom: 20px;
+        }
+        .back-link:hover {
+            background: #a77b3c;
+            color: #fff8f0;
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .action-btn {
+            background: rgba(167, 123, 60, 0.1);
+            border: 1px solid rgba(167, 123, 60, 0.3);
+            padding: 8px 20px;
+            border-radius: 30px;
+            color: #a77b3c;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .action-btn:hover {
+            background: #a77b3c;
+            color: #fff8f0;
+        }
+
+        .treasure-img-wrapper {
+            background: #fffdf7;
+            border: 1px solid rgba(180, 150, 110, 0.2);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+        }
+        .treasure-img {
+            width: 100%;
+            height: auto;
+            min-height: 300px;
+            max-height: 500px;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+        .treasure-img-wrapper:hover .treasure-img {
+            transform: scale(1.02);
+        }
+
+        .info-section {
+            background: #fffdf7;
+            border: 1px solid rgba(180, 150, 110, 0.2);
+            border-radius: 16px;
+            padding: 35px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #4d3e2c;
+            font-size: 32px;
+            margin-bottom: 15px;
+            font-family: 'Noto Serif SC', serif;
+        }
+        .era-tag {
+            display: inline-block;
+            background: rgba(167, 123, 60, 0.1);
+            color: #a77b3c;
+            padding: 4px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+        .content {
+            font-size: 16px;
+            color: #5e5240;
+            line-height: 1.9;
+        }
+        .content p {
+            margin-bottom: 15px;
+        }
+
+        .extra-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(180, 150, 110, 0.15);
+        }
+        .extra-item {
+            text-align: center;
+        }
+        .extra-item .label {
+            font-size: 12px;
+            color: #8e8068;
+            margin-bottom: 5px;
+        }
+        .extra-item .value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4d3e2c;
+        }
+
+        .related-section {
+            background: #fffdf7;
+            border: 1px solid rgba(180, 150, 110, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+        }
+        .related-title {
+            font-size: 20px;
+            color: #4d3e2c;
+            margin-bottom: 20px;
+            font-family: 'Noto Serif SC', serif;
+        }
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+        }
+        .related-card {
+            text-decoration: none;
+            text-align: center;
+            padding: 15px;
+            background: rgba(167, 123, 60, 0.03);
+            border-radius: 12px;
+            transition: 0.3s;
+            border: 1px solid transparent;
+        }
+        .related-card:hover {
+            border-color: rgba(167, 123, 60, 0.3);
+            transform: translateY(-3px);
+            background: rgba(167, 123, 60, 0.05);
+        }
+        .related-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .related-card h4 {
+            color: #4d3e2c;
+            font-size: 14px;
+            margin: 0;
+        }
+        .related-card p {
+            color: #8e8068;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #a77b3c;
+            color: #fff8f0;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: bold;
+            z-index: 2001;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .toast-msg.show {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .info-section { padding: 25px; }
+            h1 { font-size: 26px; }
+            .related-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress-container">
+    <div class="progress-bar-page" id="progressBarPage"></div>
+</div>
+
+<nav class="nav-luxury">
+    <div class="nav-container">
+        <div class="brand">
+            <h1>荆楚·藏珍</h1>
+            <p>HUBEI PROVINCIAL MUSEUM</p>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">首境</a>
+            <a href="exhibition.html">云梦典藏</a>
+            <a href="treasures.html">灵境展览</a>
+            <a href="academic.html">学术寰宇</a>
+            <a href="service.html">服务</a>
+            <a href="login.html" id="nav-login">登录</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <a href="exhibition.html" class="back-link">← 返回云梦典藏</a>
+
+    <div class="action-bar">
+        <button class="action-btn" onclick="scrollToContent()">📖 阅读详情</button>
+        <button class="action-btn" onclick="sharePage()">📤 分享藏品</button>
+        <button class="action-btn" onclick="copyLink()">🔗 复制链接</button>
+        <button class="action-btn" onclick="toggleFavorite()" id="favoriteBtn">🤍 收藏</button>
+    </div>
+
+    <div class="treasure-img-wrapper" data-aos="fade-up">
+        <img id="treasureImg" src="" alt="藏品图片" class="treasure-img" style="display:none;">
+    </div>
+
+    <div class="info-section" data-aos="fade-up" data-aos-delay="100">
+        <div class="era-tag" id="eraTag"></div>
+        <h1 id="title">正在加载...</h1>
+        <div class="content" id="content"></div>
+
+        <div class="extra-info">
+            <div class="extra-item"><div class="label">出土时间</div><div class="value" id="excavatedYear"></div></div>
+            <div class="extra-item"><div class="label">出土地点</div><div class="value" id="excavatedSite"></div></div>
+            <div class="extra-item"><div class="label">材质</div><div class="value" id="material"></div></div>
+            <div class="extra-item"><div class="label">参观热度</div><div class="value" id="hotness"></div></div>
+        </div>
+    </div>
+
+    <div class="related-section" data-aos="fade-up" data-aos-delay="200">
+        <div class="related-title">🏺 相关藏品推荐</div>
+        <div class="related-grid" id="relatedGrid"></div>
+    </div>
+</div>
+
+<div class="toast-msg" id="toastMsg">操作成功</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 800, once: true });
+
+    // 滚动进度条
+    window.addEventListener('scroll', function() {
+        const winScroll = document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        const progressBar = document.getElementById('progressBarPage');
+        if (progressBar) progressBar.style.width = scrolled + '%';
+    });
+
+    // ✅ 完整文物数据（图片地址已改为本地 image 文件夹中的图片）
+    // 图片分配：1.jpg, 2.jpg, 3.jpg, 4.jpg 循环使用
+    const treasureData = {
+        bell: {
+            id: 'bell',
+            title: "曾侯乙编钟",
+            image: "image/1.jpg",
+            era: "战国早期",
+            excavatedYear: "1978年",
+            excavatedSite: "湖北随州擂鼓墩",
+            material: "青铜",
+            hotness: "⭐⭐⭐⭐⭐",
+            text: "<p>曾侯乙编钟是中国古代最完整、音响最宏大的一套编钟，1978年出土于湖北随州。其结构复杂，工艺精湛，全套65件编钟总重量达2500公斤，具备“一钟双音”的神奇声学效果，代表了战国时期青铜铸造技术的巅峰。</p><p>每件钟都能敲击出两个不同的乐音，整套编钟的音域跨五个半八度，仅比现代钢琴少一个八度。钟体上还刻有2800多字的铭文，记载了当时的乐律学理论，是研究先秦音乐史的珍贵资料。</p><p>编钟的出土改写了世界音乐史，证明了中国在2400年前就已经有了完整的十二律体系。它不仅是乐器，更是权力和礼制的象征，被海内外学者誉为“世界第八大奇迹”。</p>"
+        },
+        zunpan: {
+            id: 'zunpan',
+            title: "曾侯乙尊盘",
+            image: "image/4.jpg",
+            era: "战国早期",
+            excavatedYear: "1978年",
+            excavatedSite: "湖北随州擂鼓墩",
+            material: "青铜",
+            hotness: "⭐⭐⭐⭐⭐",
+            text: "<p>曾侯乙尊盘是战国早期青铜器中的瑰宝，由尊和盘两部分组成，尊置于盘中，合称尊盘。尊盘通体饰有繁复的蟠螭纹和蟠虺纹，采用失蜡法铸造，纹饰极为精美，代表了先秦时期青铜铸造工艺的最高水平。</p><p>尊盘的整体造型分为上下两部分：上部为尊，用于盛酒；下部为盘，用于盛冰或温水，起到冰镇或温酒的作用。这种“尊盘”组合是战国时期高级贵族使用的礼器，体现了当时严格的等级制度。</p><p>尊盘的镂空装饰层次丰富，立体感极强，失蜡法的运用使其纹饰如行云流水，令人叹为观止，被誉为“青铜时代的绝唱”。</p>"
+        },
+        sword: {
+            id: 'sword',
+            title: "越王勾践剑",
+            image: "image/2.jpg",
+            era: "春秋晚期",
+            excavatedYear: "1965年",
+            excavatedSite: "湖北江陵望山",
+            material: "青铜",
+            hotness: "⭐⭐⭐⭐⭐",
+            text: "<p>越王勾践剑因剑身刻有“越王鸠浅，自乍用鐱”八字铭文而得名，出土时仍寒光逼人、锋利无比，被誉为“天下第一剑”。其工艺体现了极高的金属合金配比技术，剑身表面经过硫化处理，形成保护层，因此两千年不朽。</p><p>剑长55.7厘米，宽4.6厘米，剑身满饰黑色菱形暗纹，剑格正面嵌蓝色琉璃，背面镶绿松石。近格处有两行鸟篆铭文，字体工整，笔画精细。</p><p>这把剑不仅代表了春秋时期青铜铸造的最高水平，更因其主人——卧薪尝胆的越王勾践而具有重要的历史意义。它是中国古代兵器史上的奇迹，也是中华民族不屈精神的象征。</p>"
+        },
+        vase: {
+            id: 'vase',
+            title: "元青花四爱图梅瓶",
+            image: "image/3.jpeg",
+            era: "元代",
+            excavatedYear: "2006年",
+            excavatedSite: "湖北钟祥",
+            material: "瓷器",
+            hotness: "⭐⭐⭐⭐",
+            text: "<p>元青花四爱图梅瓶通体绘有王羲之爱兰、陶渊明爱菊、林和靖爱梅、周敦颐爱莲四幅画面，因此得名。釉色莹润，青花发色纯正，是元代瓷器中的稀世珍品。</p><p>此瓶造型典雅，构图严谨，肩部绘凤穿牡丹纹，腹部为主题纹饰四爱图，足部饰仰莲纹。四爱图分别展现了四位文人雅士的高洁情操：王羲之爱兰的幽雅、陶渊明爱菊的隐逸、林和靖爱梅鹤的孤高、周敦颐爱莲的出淤泥而不染。</p><p>这件梅瓶是元代青花瓷艺术的巅峰之作，展现了当时制瓷工艺的最高水平，也是研究元代社会文化和文人审美的重要实物资料。</p>"
+        },
+        drum: {
+            id: 'drum',
+            title: "虎座鸟架鼓",
+            image: "image/5.webp",
+            era: "战国时期",
+            excavatedYear: "2002年",
+            excavatedSite: "湖北枣阳九连墩",
+            material: "漆木器",
+            hotness: "⭐⭐⭐⭐",
+            text: "<p>虎座鸟架鼓是战国时期楚国特有的乐器，两只昂首卷尾的卧虎为底座，凤鸟立于虎背，造型雄奇，极具楚文化神韵。通体髹黑漆，用红、黄、金等色彩绘，装饰华丽。</p><p>整件器物由两只卧虎、两只凤鸟和一面大鼓组成。虎座昂首挺胸，凤鸟振翅欲飞，鼓悬挂于凤鸟之间。这种“虎座凤架鼓”是楚国宫廷礼乐的重要乐器，仅出现在高级贵族墓葬中。</p><p>这件文物体现了楚人“崇凤”的信仰和浪漫主义的艺术风格，是楚文化最具代表性的器物之一，也是研究楚国音乐、礼制和漆器工艺的珍贵实物。</p>"
+        },
+        jade: {
+            id: 'jade',
+            title: "曾侯乙玉璜组佩",
+            image: "image/6.jpg",
+            era: "战国早期",
+            excavatedYear: "1978年",
+            excavatedSite: "湖北随州擂鼓墩",
+            material: "玉器",
+            hotness: "⭐⭐⭐⭐",
+            text: "<p>曾侯乙玉璜组佩是战国玉组佩之王，由多件玉璜、玉环、玉冲牙等串联而成，精美绝伦的透雕工艺，展现了极高的礼制规范。这套组佩出土时位于墓主颈部，是身份地位的象征。</p><p>组佩中的玉璜呈半圆形，两端有孔，表面雕刻云纹、谷纹、龙纹等。玉质温润，工艺精湛，代表了战国时期玉器制作的最高水平。</p><p>“君子无故，玉不去身”，组佩不仅是装饰品，更是君子品德的象征。行走时玉器相互撞击发出悦耳的声音，提醒佩戴者举止端庄、行止有度。</p>"
+        },
+        bamboo: {
+            id: 'bamboo',
+            title: "云梦睡虎地秦简",
+            image: "image/7.jpg",
+            era: "秦代",
+            excavatedYear: "1975年",
+            excavatedSite: "湖北云梦睡虎地",
+            material: "竹简",
+            hotness: "⭐⭐⭐⭐",
+            text: "<p>云梦睡虎地秦简1975年出土于湖北云梦睡虎地，共计1155枚，内容包括《秦律十八种》、《效律》、《秦律杂抄》、《法律答问》、《封诊式》等，是研究秦代法律制度的珍贵文献。</p><p>秦简墨迹清晰，字体为秦隶，是汉字由篆书向隶书演变的重要实物见证。简文记载了秦代的法律条文、行政制度、占卜内容等，被誉为“地下档案库”。</p><p>这批简牍的发现，极大地丰富了对秦代法律、政治、经济、文化的认识，是研究中国古代法制史的里程碑式发现。</p>"
+        },
+        lacquer: {
+            id: 'lacquer',
+            title: "彩绘人物车马出行图圆奁",
+            image: "image/8.jpg",
+            era: "战国晚期",
+            excavatedYear: "1987年",
+            excavatedSite: "湖北荆门包山",
+            material: "漆器",
+            hotness: "⭐⭐⭐⭐",
+            text: "<p>彩绘人物车马出行图圆奁是楚国漆器美学的杰出代表，外壁描绘了贵族车马出行的宏大叙事画面，色彩艳丽，人物生动，是战国时期漆画艺术的巅峰之作。</p><p>画面上共有26个人物、4乘车、10匹马、5棵树、1头猪和2只狗，描绘了楚国贵族出行的场景。人物姿态各异，或前呼后拥，或拱手行礼，生动再现了战国时期的社会生活。</p><p>这件漆奁是研究楚国绘画艺术、服饰文化、车马制度的重要实物，其绘画风格和技法对后世中国画的发展产生了深远影响。</p>"
+        },
+        wenweng: {
+            id: 'wenweng',
+            title: "白玉双文武翁仲佩",
+            image: "image/9.webp",
+            era: "明代",
+            excavatedYear: "2005年",
+            excavatedSite: "湖北钟祥",
+            material: "玉器",
+            hotness: "⭐⭐⭐",
+            text: "<p>白玉双文武翁仲佩出土于郢靖王墓，采用和田白玉精雕而成，作为高等级皇家辟邪佩饰，玉质温润，雕刻精细。</p><p>翁仲原是秦代猛将，因其威猛善战，后世将其形象雕刻成玉器佩戴，用以辟邪驱魔。这对翁仲一文一武，文官持笏，武官按剑，造型生动，神态威严。</p><p>这件玉佩是明代藩王墓中出土的珍贵文物，体现了明代玉器雕刻的精湛技艺和皇家用玉的严格等级制度。</p>"
+        }
+    };
+
+    // 相关藏品推荐映射
+    const relatedMap = {
+        bell: ['zunpan', 'sword', 'jade'],
+        zunpan: ['bell', 'sword', 'jade'],
+        sword: ['bell', 'zunpan', 'jade'],
+        vase: ['bell', 'lacquer', 'wenweng'],
+        drum: ['bell', 'lacquer', 'jade'],
+        jade: ['bell', 'sword', 'zunpan'],
+        bamboo: ['bell', 'lacquer', 'jade'],
+        lacquer: ['bell', 'drum', 'jade'],
+        wenweng: ['vase', 'jade', 'bell']
+    };
+
+    // 获取 URL 参数
+    const params = new URLSearchParams(window.location.search);
+    let id = params.get('id');
+    let treasure = treasureData[id];
+
+    // 收藏功能
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+
+    function updateFavoriteBtn() {
+        const btn = document.getElementById('favoriteBtn');
+        if (favorites.includes(id)) {
+            btn.innerHTML = '❤️ 已收藏';
+            btn.style.background = '#a77b3c';
+            btn.style.color = '#fff8f0';
+        } else {
+            btn.innerHTML = '🤍 收藏';
+            btn.style.background = 'rgba(167, 123, 60, 0.1)';
+            btn.style.color = '#a77b3c';
+        }
+    }
+
+    function toggleFavorite() {
+        if (favorites.includes(id)) {
+            favorites = favorites.filter(f => f !== id);
+            showToast('已取消收藏');
+        } else {
+            favorites.push(id);
+            showToast('已添加到收藏夹');
+        }
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        updateFavoriteBtn();
+    }
+
+    function showToast(message, isError = false) {
+        const toast = document.getElementById('toastMsg');
+        toast.textContent = message;
+        toast.style.background = isError ? '#e74c3c' : '#a77b3c';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    function scrollToContent() {
+        document.querySelector('.info-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function sharePage() {
+        const url = window.location.href;
+        const title = document.getElementById('title').innerText;
+        if (navigator.share) {
+            navigator.share({ title: title, url: url });
+        } else {
+            navigator.clipboard.writeText(url);
+            showToast('链接已复制，可分享给朋友');
+        }
+    }
+
+    function copyLink() {
+        navigator.clipboard.writeText(window.location.href);
+        showToast('链接已复制');
+    }
+
+    // 更新结构化数据和社交标签
+    function updateMetaTags(item) {
+        const url = `https://yourmuseum.com/details.html?id=${id}`;
+        const plainText = item.text.replace(/<[^>]*>/g, '').substring(0, 200);
+
+        document.getElementById('schemaData').innerHTML = JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CreativeWork",
+            "name": item.title,
+            "description": plainText,
+            "image": item.image,
+            "url": url
+        });
+
+        document.getElementById('ogTitle').setAttribute('content', item.title + ' - 荆楚·藏珍');
+        document.getElementById('ogDesc').setAttribute('content', plainText.substring(0, 150));
+        document.getElementById('ogImage').setAttribute('content', item.image);
+        document.getElementById('ogUrl').setAttribute('content', url);
+
+        document.getElementById('twitterTitle').setAttribute('content', item.title);
+        document.getElementById('twitterDesc').setAttribute('content', plainText.substring(0, 150));
+        document.getElementById('twitterImage').setAttribute('content', item.image);
+
+        document.title = item.title + ' - 荆楚·藏珍 | 湖北省博物馆';
+    }
+
+    // 渲染相关藏品
+    function renderRelated(currentId) {
+        const relatedIds = relatedMap[currentId] || ['bell', 'sword', 'vase'];
+        const relatedGrid = document.getElementById('relatedGrid');
+        relatedGrid.innerHTML = '';
+
+        relatedIds.forEach(relId => {
+            const item = treasureData[relId];
+            if (item && item.id !== currentId) {
+                const card = document.createElement('a');
+                card.href = `details.html?id=${item.id}`;
+                card.className = 'related-card';
+                card.innerHTML = `<img src="${item.image}" alt="${item.title}"><h4>${item.title}</h4><p>${item.era}</p>`;
+                relatedGrid.appendChild(card);
+            }
+        });
+    }
+
+    // 渲染主内容
+    const imgEl = document.getElementById('treasureImg');
+
+    if (treasure) {
+        document.getElementById('title').innerText = treasure.title;
+        document.getElementById('content').innerHTML = treasure.text;
+        document.getElementById('eraTag').innerText = treasure.era;
+        document.getElementById('excavatedYear').innerText = treasure.excavatedYear;
+        document.getElementById('excavatedSite').innerText = treasure.excavatedSite;
+        document.getElementById('material').innerText = treasure.material;
+        document.getElementById('hotness').innerHTML = treasure.hotness;
+
+        imgEl.src = treasure.image;
+        imgEl.style.display = 'block';
+
+        updateMetaTags(treasure);
+        renderRelated(id);
+        updateFavoriteBtn();
+    } else {
+        document.getElementById('title').innerText = "藏品未找到";
+        document.getElementById('content').innerHTML = "<p>抱歉，您访问的藏品信息不存在。请返回云梦典藏页面浏览更多精彩内容。</p>";
+        document.getElementById('eraTag').style.display = 'none';
+        imgEl.style.display = 'none';
+    }
+
+    // 登录联动
+    window.addEventListener('DOMContentLoaded', () => {
+        const navLogin = document.getElementById('nav-login');
+        if (navLogin && localStorage.getItem('isLoggedIn') === 'true') {
+            const user = localStorage.getItem('username');
+            navLogin.innerText = '欢迎, ' + user;
+            navLogin.href = '#';
+            navLogin.onclick = function(e) {
+                e.preventDefault();
+                if (confirm('确定要退出登录吗？')) {
+                    localStorage.clear();
+                    location.reload();
+                }
+            };
+        }
+    });
+</script>
+</body>
+</html>

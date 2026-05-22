@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>荆楚·藏珍 - 湖北省博物馆数字平台</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* 全局基础规范 —— 背景改为浅米色纸张质感 */
+        body {
+            background: #faf7f0;
+            color: #3e3a34;
+            font-family: "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 豪华导航栏 */
+        .nav-luxury {
+            background: rgba(250, 247, 240, 0.92);
+            border-bottom: 1px solid rgba(180, 150, 110, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+        }
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+        .brand h1 {
+            font-size: 24px;
+            color: #a77b3c;
+            margin: 0;
+            letter-spacing: 3px;
+            font-weight: 600;
+        }
+        .brand p {
+            font-size: 10px;
+            color: #8e8068;
+            margin: 2px 0 0 0;
+            letter-spacing: 1px;
+        }
+        .nav-links a {
+            color: #5e5240;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 15px;
+            transition: color 0.3s;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #a77b3c;
+            border-bottom: 2px solid #a77b3c;
+        }
+
+        /* 巨幕横幅 */
+        .hero {
+            position: relative;
+            height: 75vh;
+            background: linear-gradient(rgba(250, 247, 240, 0.15), #faf7f0), url('https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?q=80&w=1600') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+        .hero h2 {
+            font-size: 52px;
+            color: #4d3e2c;
+            margin: 0;
+            letter-spacing: 8px;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(255,255,255,0.6);
+        }
+        .hero p {
+            font-size: 18px;
+            color: #5e5240;
+            max-width: 700px;
+            margin: 25px 0;
+            letter-spacing: 2px;
+        }
+
+        .btn-gold {
+            background: linear-gradient(120deg, #dbbc7c, #b48b4b);
+            color: #fff8f0;
+            border: none;
+            padding: 14px 36px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(180, 139, 75, 0.25);
+        }
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(180, 139, 75, 0.5);
+        }
+
+        /* 文字轮播样式 */
+        .poetry-carousel {
+            max-width: 1000px;
+            margin: 0 auto 20px auto;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 5;
+        }
+        .carousel-text-container {
+            position: relative;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .carousel-item {
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            pointer-events: none;
+        }
+        .carousel-item.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .carousel-item .poem-line {
+            font-size: 24px;
+            color: #4d3e2c;
+            letter-spacing: 3px;
+            font-style: italic;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .carousel-item .poem-author {
+            font-size: 15px;
+            color: #8e8068;
+            letter-spacing: 2px;
+        }
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .carousel-dots span {
+            width: 8px;
+            height: 8px;
+            background: #d4c4a8;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .carousel-dots span.active {
+            background: #a77b3c;
+            width: 20px;
+            border-radius: 10px;
+        }
+
+        .status-bar {
+            max-width: 1200px;
+            margin: -30px auto 40px auto;
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 252, 245, 0.9);
+            border: 1px solid rgba(180, 150, 110, 0.35);
+            border-radius: 6px;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            color: #3e3a34;
+        }
+
+        .section-title {
+            text-align: center;
+            padding: 60px 0 30px 0;
+            font-size: 32px;
+            color: #a77b3c;
+            letter-spacing: 4px;
+            font-weight: 600;
+        }
+        .section-subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #8e8068;
+            margin-top: -20px;
+            margin-bottom: 40px;
+        }
+
+        /* 纵向排列镇馆之宝（每个一行） */
+        .treasure-vertical {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            padding: 0 20px;
+        }
+        .treasure-card {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            background: #fffdf7;
+            border: 1px solid rgba(180, 150, 110, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            color: inherit;
+            gap: 30px;
+        }
+        .treasure-card:hover {
+            transform: translateY(-8px);
+            border-color: #a77b3c;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        }
+
+        /* 图片容器 —— 实现鼠标悬停放大效果 */
+        .card-image-wrapper {
+            width: 320px;
+            height: 240px;
+            overflow: hidden;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .card-image {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transform: scale(1);
+        }
+        /* 鼠标悬停卡片时，图片微微放大 */
+        .treasure-card:hover .card-image {
+            transform: scale(1.08);
+        }
+
+        .card-text {
+            padding: 25px 25px 25px 0;
+            flex: 1;
+        }
+        .card-text h3 {
+            color: #4d3e2c;
+            font-weight: 600;
+            margin: 0 0 12px 0;
+            font-size: 22px;
+            letter-spacing: 2px;
+        }
+        .card-text p {
+            color: #5e5240;
+            margin: 0;
+            line-height: 1.8;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .treasure-card {
+                flex-direction: column;
+                gap: 0;
+            }
+            .card-image-wrapper {
+                width: 100%;
+                height: 220px;
+            }
+            .card-text {
+                padding: 20px;
+            }
+        }
+
+        .features {
+            max-width: 1200px;
+            margin: 0 auto 80px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 0 20px;
+        }
+        .card {
+            background: rgba(255, 250, 240, 0.8);
+            border: 1px solid rgba(180, 150, 110, 0.15);
+            border-radius: 6px;
+            padding: 30px 25px;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(167, 123, 60, 0.5);
+        }
+        .card h3 {
+            color: #4d3e2c;
+            font-weight: 600;
+        }
+        .card p {
+            color: #5e5240;
+        }
+        .card a {
+            color: #a77b3c;
+        }
+
+        /* VR卡片特殊样式 */
+        .card-vr {
+            position: relative;
+            overflow: hidden;
+        }
+        .card-vr::before {
+            content: "热门";
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #a77b3c;
+            color: #fff;
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 3px;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+        .vr-icon {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        /* ---------- 新增页脚样式 ---------- */
+        .footer-luxury {
+            background: #2b2520;
+            color: #c4b896;
+            border-top: 3px solid #a77b3c;
+            margin-top: 80px;
+            padding: 60px 20px 30px;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+        .footer-col h4 {
+            color: #dbbc7c;
+            font-size: 18px;
+            letter-spacing: 3px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(200, 170, 110, 0.2);
+            font-weight: 500;
+        }
+        .footer-col p {
+            font-size: 14px;
+            line-height: 2.2;
+            margin: 0;
+            color: #b8a88a;
+        }
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+        .footer-col ul li a {
+            color: #b8a88a;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 14px;
+        }
+        .footer-col ul li a:hover {
+            color: #dbbc7c;
+        }
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        .footer-social span {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(200, 170, 110, 0.3);
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #c4b896;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .footer-social span:hover {
+            background: rgba(167, 123, 60, 0.2);
+            border-color: #a77b3c;
+            color: #dbbc7c;
+        }
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding-top: 25px;
+            border-top: 1px solid rgba(200, 170, 110, 0.15);
+            text-align: center;
+            font-size: 13px;
+            color: #8a7e6b;
+            letter-spacing: 2px;
+        }
+        .footer-bottom a {
+            color: #c4b896;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        .footer-bottom a:hover {
+            color: #dbbc7c;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav-luxury">
+    <div class="nav-container">
+        <div class="brand"><h1>荆楚·藏珍</h1><p>HUBEI PROVINCIAL MUSEUM</p></div>
+        <div class="nav-links">
+            <a href="index.html" class="active">首境</a>
+            <a href="exhibition.html">云梦典藏</a>
+            <a href="treasures.html">灵境展览</a>
+            <a href="academic.html">学术寰宇</a>
+            <a href="service.html">服务</a>
+            <a href="login.html" id="nav-login" style="color: #a77b3c; border-left: 1px solid #a77b3c; padding-left: 15px; margin-left: 15px;">登录</a>
+        </div>
+    </div>
+</nav>
+
+<div class="hero">
+    <h2 data-aos="fade-up">聆听青铜千年的回响</h2>
+    <p data-aos="fade-up" data-aos-delay="200">越王勾践破吴剑，曾侯乙樽盛楚醴。跨越时空阻隔，在此步入浪漫瑰丽的楚文化精神家园。</p>
+    <a href="https://houseoss.4dkankan.com/project/hubeiMuseum/JMCTHome/index.html#/" target="_blank" class="btn-gold" data-aos="fade-up" data-aos-delay="400">🥽 开启灵境漫游</a>
+</div>
+
+<!-- 文字轮播区域 -->
+<div class="poetry-carousel" data-aos="fade-up">
+    <div class="carousel-text-container" id="carouselTextContainer">
+        <div class="carousel-item active">
+            <div class="poem-line">" 楚虽三户，亡秦必楚 "</div>
+            <div class="poem-author">——《史记·项羽本纪》</div>
+        </div>
+        <div class="carousel-item">
+            <div class="poem-line">" 路漫漫其修远兮，吾将上下而求索 "</div>
+            <div class="poem-author">—— 屈原《离骚》</div>
+        </div>
+        <div class="carousel-item">
+            <div class="poem-line">" 惟楚有才，于斯为盛 "</div>
+            <div class="poem-author">—— 岳麓书院楹联</div>
+        </div>
+        <div class="carousel-item">
+            <div class="poem-line">" 沧浪之水清兮，可以濯吾缨 "</div>
+            <div class="poem-author">—— 屈原《渔父》</div>
+        </div>
+    </div>
+    <div class="carousel-dots" id="carouselDots">
+        <span class="active" data-index="0"></span>
+        <span data-index="1"></span>
+        <span data-index="2"></span>
+        <span data-index="3"></span>
+    </div>
+</div>
+
+<div class="status-bar" data-aos="fade-in">
+    <div>今日场馆正常开放 (09:00 - 17:00) ｜ 馆内舒适度：舒适</div>
+    <a href="service.html" style="color: #a77b3c;">快捷预约门票 →</a>
+</div>
+
+<div class="section-title" data-aos="fade-down">✦ 镇馆之宝 ✦</div>
+<div class="section-subtitle">CROWN JEWELS OF THE MUSEUM</div>
+
+<!-- 纵向排列镇馆之宝，每个一行，图片在左文字在右 -->
+<div class="treasure-vertical">
+    <!-- 曾侯乙编钟 - 使用 1.jpg -->
+    <a href="details.html?id=bell" class="treasure-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="card-image-wrapper">
+            <div class="card-image" style="background-image: url('image/1.jpg');"></div>
+        </div>
+        <div class="card-text">
+            <h3>曾侯乙编钟</h3>
+            <p>战国早期文物。由六十五件青铜编钟组成，改写世界音乐史。具备"一钟双音"的神奇声学效果，是迄今为止发现的最雄伟、最庞大的青铜乐器。</p>
+        </div>
+    </a>
+
+    <!-- 越王勾践剑 - 使用 2.jpg -->
+    <a href="details.html?id=sword" class="treasure-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="card-image-wrapper">
+            <div class="card-image" style="background-image: url('image/2.jpg');"></div>
+        </div>
+        <div class="card-text">
+            <h3>越王勾践剑</h3>
+            <p>春秋晚期。千年不锈，寒光逼人，被誉为"天下第一剑"。剑身满饰菱形暗纹，近格处有两行鸟篆铭文，体现了春秋时期极高的青铜铸造工艺。</p>
+        </div>
+    </a>
+
+    <!-- 元青花四爱图梅瓶 - 使用 3.jpg -->
+    <a href="details.html?id=vase" class="treasure-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="card-image-wrapper">
+            <div class="card-image" style="background-image: url('image/3.jpeg');"></div>
+        </div>
+        <div class="card-text">
+            <h3>元青花四爱图梅瓶</h3>
+            <p>元代青花瓷巅峰之作。通体绘有王羲之爱兰、陶渊明爱菊、周敦颐爱莲、林和靖爱梅鹤四幅古典文人典故，釉色莹润，是元代瓷器中的稀世珍品。</p>
+        </div>
+    </a>
+</div>
+
+<div class="section-title" data-aos="fade-down">✦ 咨询与数字服务 ✦</div>
+<div class="features">
+    <div class="card card-vr" data-aos="zoom-in" data-aos-delay="100">
+        <span class="vr-icon">🥽</span>
+        <h3>VR全景虚拟展厅</h3>
+        <p>360°沉浸式漫游湖北省博物馆，足不出户感受楚国文化的魅力。</p>
+        <a href="https://houseoss.4dkankan.com/project/hubeiMuseum/JMCTHome/index.html#/" target="_blank">进入VR展厅 →</a>
+    </div>
+    <div class="card" data-aos="zoom-in" data-aos-delay="150">
+        <h3>「古乐新声」AR互动</h3>
+        <p>在线通过AR虚拟技术模拟敲击编钟。</p>
+        <a href="treasures.html">立即体验 →</a>
+    </div>
+    <div class="card" data-aos="zoom-in" data-aos-delay="200">
+        <h3>楚国美学线上讲座</h3>
+        <p>学术寰宇板块同步直播考古研讨会。</p>
+        <a href="academic.html">查看日程 →</a>
+    </div>
+    <div class="card" data-aos="zoom-in" data-aos-delay="300">
+        <h3>智慧导览预约</h3>
+        <p>开通AR导览眼镜预约，入馆即取。</p>
+        <a href="service.html">服务详情 →</a>
+    </div>
+</div>
+
+<!-- 新增页脚区域 -->
+<footer class="footer-luxury">
+    <div class="footer-container">
+        <div class="footer-col">
+            <h4>参观信息</h4>
+            <p>📍 湖北省武汉市武昌区东湖路160号</p>
+            <p>🕘 周二至周日 9:00 - 17:00</p>
+            <p>🎫 免费参观 · 需提前预约</p>
+            <p>📞 咨询电话：027-86794127</p>
+        </div>
+        <div class="footer-col">
+            <h4>数字资源</h4>
+            <ul>
+                <li><a href="https://houseoss.4dkankan.com/project/hubeiMuseum/JMCTHome/index.html#/" target="_blank">VR虚拟展厅漫游</a></li>
+                <li><a href="#">高清文物图库</a></li>
+                <li><a href="#">3D 文物鉴赏</a></li>
+                <li><a href="#">学术论文数据库</a></li>
+                <li><a href="#">教育活动预约</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>关注我们</h4>
+            <p>微信公众号：荆楚藏珍</p>
+            <p>官方微博：@湖北省博物馆</p>
+            <p>抖音号：hubeimuseum</p>
+            <div class="footer-social">
+                <span>微信</span>
+                <span>微博</span>
+                <span>抖音</span>
+                <span>B站</span>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>关于我们</h4>
+            <p>湖北省博物馆筹建于1953年，是全国八家中央地方共建国家级博物馆之一。馆藏文物丰富，以商周青铜器、楚国文物为特色。</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        © 2025 荆楚·藏珍 | 湖北省博物馆数字平台 · 典藏千年文明 ｜
+        <a href="#">隐私政策</a> |
+        <a href="#">使用条款</a> |
+        <a href="#">网站地图</a>
+    </div>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 1000, once: true });
+
+    // ---------- 文字轮播逻辑 ----------
+    (function() {
+        const items = document.querySelectorAll('.carousel-item');
+        const dots = document.querySelectorAll('#carouselDots span');
+        let currentSlide = 0;
+        const totalSlides = items.length;
+        let slideInterval;
+
+        function showSlide(index) {
+            items.forEach(item => item.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            items[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            let next = (currentSlide + 1) % totalSlides;
+            showSlide(next);
+        }
+
+        function startCarousel() {
+            slideInterval = setInterval(nextSlide, 4500);
+        }
+
+        function stopCarousel() {
+            clearInterval(slideInterval);
+        }
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', function(e) {
+                const index = parseInt(this.getAttribute('data-index'));
+                showSlide(index);
+                stopCarousel();
+                startCarousel();
+            });
+        });
+
+        const container = document.getElementById('carouselTextContainer');
+        container.addEventListener('mouseenter', stopCarousel);
+        container.addEventListener('mouseleave', startCarousel);
+
+        startCarousel();
+    })();
+
+    // 登录联动逻辑
+    window.addEventListener('DOMContentLoaded', () => {
+        const navLogin = document.getElementById('nav-login');
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            const user = localStorage.getItem('username');
+            navLogin.innerText = '欢迎, ' + user;
+            navLogin.href = '#';
+            navLogin.onclick = function(e) {
+                e.preventDefault();
+                if (confirm('确定要退出登录吗？')) {
+                    localStorage.clear();
+                    location.reload();
+                }
+            };
+        }
+    });
+</script>
+</body>
+</html>

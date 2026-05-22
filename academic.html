@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>学术寰宇 - 荆楚·藏珍 | 湖北省博物馆数字平台</title>
+
+    <!-- SEO: 标准链接 -->
+    <link rel="canonical" href="https://yourmuseum.com/academic.html" />
+
+    <!-- SEO: 结构化数据 (JSON-LD) -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "湖北省博物馆学术研究部",
+            "alternateName": "荆楚·藏珍学术平台",
+            "description": "湖北省博物馆学术研究平台，提供出土文物三维影像库、楚简文字数字化检索、楚系青铜器合金成分分析等学术资源。",
+            "url": "https://yourmuseum.com/academic.html",
+            "sameAs": [
+                "https://weibo.com/hubeimuseum",
+                "https://www.douyin.com/hubeimuseum"
+            ],
+            "parentOrganization": {
+                "@type": "Museum",
+                "name": "湖北省博物馆"
+            }
+        }
+    </script>
+
+    <!-- 社交分享优化 -->
+    <meta property="og:title" content="学术寰宇 - 荆楚·藏珍 | 湖北省博物馆学术平台" />
+    <meta property="og:description" content="探寻楚文化考古之源，构建跨时空的学术对话平台。提供文物三维影像库、楚简文字检索、青铜器成分分析报告等学术资源。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://picsum.photos/id/104/1200/630" />
+    <meta property="og:url" content="https://yourmuseum.com/academic.html" />
+    <meta property="og:locale" content="zh_CN" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="学术寰宇 - 荆楚·藏珍" />
+    <meta name="twitter:description" content="湖北省博物馆学术研究平台，楚文化考古数字化资源库。" />
+    <meta name="twitter:image" content="https://picsum.photos/id/104/1200/630" />
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* 滚动进度条 */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: transparent;
+            z-index: 1001;
+        }
+        .progress-bar-page {
+            height: 3px;
+            background: linear-gradient(90deg, #a77b3c, #dbbc7c);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        body {
+            background: #faf7f0;
+            color: #3e3a34;
+            font-family: 'Inter', 'PingFang SC', sans-serif;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(rgba(167, 123, 60, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .nav-luxury {
+            background: rgba(250, 247, 240, 0.92);
+            border-bottom: 1px solid rgba(180, 150, 110, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+        }
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            flex-wrap: wrap;
+        }
+        .brand h1 {
+            font-size: 24px;
+            color: #a77b3c;
+            margin: 0;
+            letter-spacing: 3px;
+            font-weight: 600;
+        }
+        .brand p {
+            font-size: 10px;
+            color: #8e8068;
+            margin: 2px 0 0 0;
+            letter-spacing: 1px;
+        }
+        .nav-links a {
+            color: #5e5240;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 15px;
+            transition: color 0.3s;
+            padding-bottom: 5px;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #a77b3c;
+            border-bottom: 2px solid #a77b3c;
+        }
+
+        .jump-links-section {
+            background: #fffdf7;
+            border-bottom: 1px solid rgba(180, 150, 110, 0.2);
+            padding: 12px 0;
+            position: sticky;
+            top: 70px;
+            z-index: 999;
+        }
+        .jump-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .jump-link {
+            color: #5e5240;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 5px 0;
+            transition: 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+        .jump-link:hover {
+            color: #a77b3c;
+            border-bottom-color: #a77b3c;
+        }
+
+        .hero {
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .hero h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 48px;
+            color: #3d3224;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.6);
+        }
+        .hero p {
+            color: #5e5240;
+            letter-spacing: 2px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .hero-divider {
+            width: 80px;
+            height: 2px;
+            background: #a77b3c;
+            margin: 20px auto;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .section-title {
+            color: #a77b3c;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 28px;
+            margin-bottom: 40px;
+            border-left: 3px solid #a77b3c;
+            padding-left: 15px;
+        }
+
+        .academic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: #fffdf7;
+            padding: 30px;
+            border: 1px solid rgba(180, 150, 110, 0.2);
+            border-radius: 8px;
+            transition: all 0.4s ease;
+            position: relative;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+        .card:hover {
+            border-color: #a77b3c;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        }
+        .card h3 {
+            color: #4d3e2c;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        .card p {
+            color: #8e8068;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .card-btn {
+            color: #a77b3c;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            border: 1px solid #a77b3c;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: 0.3s;
+            display: inline-block;
+            background: transparent;
+            cursor: pointer;
+            z-index: 2;
+            position: relative;
+        }
+        .card-btn:hover {
+            background: #a77b3c;
+            color: #fff8f0;
+        }
+        .cite-btn {
+            background: rgba(167, 123, 60, 0.1);
+            border: 1px solid rgba(167, 123, 60, 0.3);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #8e8068;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 2;
+            position: relative;
+        }
+        .cite-btn:hover {
+            background: rgba(167, 123, 60, 0.2);
+            border-color: #a77b3c;
+            color: #a77b3c;
+        }
+
+        .accordion-section {
+            margin-top: 40px;
+        }
+        .accordion-item {
+            border-bottom: 1px solid rgba(180, 150, 110, 0.25);
+        }
+        .accordion-header {
+            background: transparent;
+            padding: 18px 10px;
+            width: 100%;
+            text-align: left;
+            font-size: 16px;
+            font-weight: 600;
+            color: #4d3e2c;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: none;
+            font-family: inherit;
+            transition: 0.2s;
+        }
+        .accordion-header:hover {
+            color: #a77b3c;
+        }
+        .accordion-header .icon {
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+        .accordion-header.active .icon {
+            transform: rotate(45deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            padding: 0 10px;
+            color: #8e8068;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        .accordion-content.show {
+            max-height: 400px;
+            padding-bottom: 20px;
+        }
+        .accordion-content ul {
+            padding-left: 20px;
+        }
+        .accordion-content li {
+            margin: 12px 0;
+        }
+
+        .resource-list {
+            list-style: none;
+        }
+        .resource-list li {
+            padding: 18px 0;
+            border-bottom: 1px solid rgba(180, 150, 110, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .resource-list li:last-child {
+            border-bottom: none;
+        }
+        .resource-list strong {
+            color: #4d3e2c;
+        }
+        .resource-list span {
+            color: #8e8068;
+            font-size: 13px;
+        }
+        .partner-tag {
+            background: rgba(167, 123, 60, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            color: #a77b3c;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(250, 247, 240, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-box {
+            background: #fffdf7;
+            border: 1px solid #a77b3c;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 650px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 40px;
+            transform: scale(0.9);
+            transition: 0.4s;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+        .modal-box h3 {
+            color: #a77b3c;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .modal-box h4 {
+            color: #4d3e2c;
+            margin: 20px 0 10px 0;
+            font-size: 18px;
+        }
+        .modal-box p {
+            color: #5e5240;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        .modal-box ul {
+            padding-left: 20px;
+            color: #5e5240;
+        }
+        .modal-box li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+        .close-modal {
+            background: #a77b3c;
+            color: #fff8f0;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .close-modal:hover {
+            background: #8b6530;
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #a77b3c;
+            color: #fff8f0;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: bold;
+            z-index: 2001;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .toast-msg.show {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 36px; }
+            .academic-grid { grid-template-columns: 1fr; }
+            .jump-links-section { top: 58px; }
+            .jump-container { gap: 15px; }
+            .jump-link { font-size: 12px; }
+            .resource-list li { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress-container">
+    <div class="progress-bar-page" id="progressBarPage"></div>
+</div>
+
+<nav class="nav-luxury">
+    <div class="nav-container">
+        <div class="brand">
+            <h1>荆楚·藏珍</h1>
+            <p>HUBEI PROVINCIAL MUSEUM</p>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">首境</a>
+            <a href="exhibition.html">云梦典藏</a>
+            <a href="treasures.html">灵境展览</a>
+            <a href="academic.html" class="active">学术寰宇</a>
+            <a href="service.html">服务</a>
+            <a href="login.html" id="nav-login">登录</a>
+        </div>
+    </div>
+</nav>
+
+<div class="jump-links-section">
+    <div class="jump-container">
+        <a href="#hero-section" class="jump-link">◈ 学术寰宇</a>
+        <a href="#digital-archive" class="jump-link">◈ 数字档案库</a>
+        <a href="#research-projects" class="jump-link">◈ 科研动态</a>
+        <a href="#partners" class="jump-link">◈ 合作机构</a>
+    </div>
+</div>
+
+<div class="hero" id="hero-section">
+    <h1 data-aos="fade-up">学术寰宇</h1>
+    <div class="hero-divider" data-aos="fade-up" data-aos-delay="100"></div>
+    <p data-aos="fade-up" data-aos-delay="200">探寻楚文化考古之源，构建跨时空的学术对话平台</p>
+</div>
+
+<!-- ✅ 数字档案库区域 - 使用本地页面链接 -->
+<div class="content-section" id="digital-archive">
+    <h2 class="section-title" data-aos="fade-right">数字档案库</h2>
+    <div class="academic-grid">
+        <!-- 卡片1：出土文物三维影像库 -->
+        <a href="3d-archive.html" target="_blank" class="card" data-aos="fade-up">
+            <h3>📚 出土文物三维影像库</h3>
+            <p>包含曾侯乙墓、越王勾践剑等重点文物的原始扫描数据，支持多格式下载与科研引用。</p>
+            <div class="card-footer">
+                <span class="card-btn" onclick="event.stopPropagation(); window.open('3d-archive.html', '_blank')">进入数据库 →</span>
+                <span class="cite-btn" onclick="event.stopPropagation(); copyCitation('archive1')">📋 引用格式</span>
+            </div>
+        </a>
+
+        <!-- 卡片2：楚简文字数字化检索 -->
+        <a href="bamboo-slips.html" target="_blank" class="card" data-aos="fade-up" data-aos-delay="100">
+            <h3>🔤 楚简文字数字化检索</h3>
+            <p>整合云梦秦简等文献的释文数据库，提供文字校勘、语义关联与历史文献对比检索功能。</p>
+            <div class="card-footer">
+                <span class="card-btn" onclick="event.stopPropagation(); window.open('bamboo-slips.html', '_blank')">检索文献 →</span>
+                <span class="cite-btn" onclick="event.stopPropagation(); copyCitation('archive2')">📋 引用格式</span>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- ✅ 科研动态与项目区域 - 使用本地页面链接 -->
+<div class="content-section" id="research-projects">
+    <h2 class="section-title" data-aos="fade-right">科研动态与项目</h2>
+
+    <div class="academic-grid">
+        <!-- 卡片3：青铜器研究报告 -->
+        <a href="bronze-report.html" target="_blank" class="card" data-aos="fade-up">
+            <h3>🔬 《楚系青铜器合金成分分析报告》</h3>
+            <p>通过对曾侯乙墓青铜器的多光谱元素分析，揭示战国早期金属冶炼工艺的复杂逻辑。</p>
+            <div class="card-footer">
+                <span class="card-btn" onclick="event.stopPropagation(); window.open('bronze-report.html', '_blank')">下载研报 PDF →</span>
+                <span class="cite-btn" onclick="event.stopPropagation(); copyCitation('project1')">📋 引用格式</span>
+            </div>
+        </a>
+
+        <!-- 卡片4：云梦简牍课题 -->
+        <a href="yunmeng-project.html" target="_blank" class="card" data-aos="fade-up" data-aos-delay="100">
+            <h3>🤖 “云梦简牍”转译课题</h3>
+            <p>基于人工智能辅助识别，解决简牍残缺部分的文字补录难题，提升考古整理效率。</p>
+            <div class="card-footer">
+                <span class="card-btn" onclick="event.stopPropagation(); window.open('yunmeng-project.html', '_blank')">查看项目 →</span>
+                <span class="cite-btn" onclick="event.stopPropagation(); copyCitation('project2')">📋 引用格式</span>
+            </div>
+        </a>
+    </div>
+
+    <!-- 手风琴：更多科研动态 -->
+    <div class="accordion-section">
+        <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleAccordion(this)">
+                <span>📖 查看更多科研动态（2024-2025）</span>
+                <span class="icon">+</span>
+            </button>
+            <div class="accordion-content">
+                <ul>
+                    <li>◈ 《曾侯乙编钟音律再研究》—— 武汉音乐学院合作项目（2024.11）</li>
+                    <li>◈ “楚国漆器保护与修复”国际学术研讨会（2025.03）</li>
+                    <li>◈ 国家社科基金重大项目“云梦睡虎地秦简整理与研究”中期成果发布</li>
+                    <li>◈ 与北京大学考古文博学院合作开展“楚文化跨区域比较研究”</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 合作机构与共建 -->
+<div class="content-section" id="partners">
+    <h2 class="section-title" data-aos="fade-right">合作机构与共建</h2>
+    <div class="card" style="cursor: default;">
+        <ul class="resource-list">
+            <li><div><strong>中国社会科学院考古研究所</strong><span class="partner-tag">战略合作伙伴</span></div></li>
+            <li><div><strong>武汉大学历史学院</strong><span class="partner-tag">数字人文科研共建</span></div></li>
+            <li><div><strong>湖北省文化遗产保护中心</strong><span class="partner-tag">文物修复专项合作</span></div></li>
+            <li><div><strong>四川大学历史文化学院</strong><span class="partner-tag">青铜器研究合作</span></div></li>
+            <li><div><strong>北京大学考古文博学院</strong><span class="partner-tag">联合培养基地</span></div></li>
+        </ul>
+    </div>
+</div>
+
+<!-- 模态框 -->
+<div class="modal-overlay" id="modal" onclick="closeModal()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <h3 id="modalTitle"></h3>
+        <div id="modalContent"></div>
+        <button class="close-modal" onclick="closeModal()">关闭</button>
+    </div>
+</div>
+
+<div class="toast-msg" id="toastMsg">已复制引用格式</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 1000, once: true });
+
+    window.addEventListener('scroll', function() {
+        const winScroll = document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        const progressBar = document.getElementById('progressBarPage');
+        if (progressBar) progressBar.style.width = scrolled + '%';
+    });
+
+    function toggleAccordion(btn) {
+        const content = btn.nextElementSibling;
+        const isActive = btn.classList.contains('active');
+        if (!isActive) {
+            btn.classList.add('active');
+            content.classList.add('show');
+        } else {
+            btn.classList.remove('active');
+            content.classList.remove('show');
+        }
+    }
+
+    const citationFormats = {
+        archive1: '湖北省博物馆. 出土文物三维影像库[DB/OL]. 荆楚·藏珍数字平台, 2025.',
+        archive2: '湖北省博物馆. 楚简文字数字化检索系统[DB/OL]. 荆楚·藏珍数字平台, 2025.',
+        project1: '湖北省博物馆学术研究部. 楚系青铜器合金成分分析报告[R]. 武汉: 湖北省博物馆, 2025.',
+        project2: '湖北省博物馆.“云梦简牍”AI转译课题阶段性成果报告[R]. 武汉: 湖北省博物馆, 2024.'
+    };
+
+    function copyCitation(projectId) {
+        const citation = citationFormats[projectId];
+        if (citation) {
+            navigator.clipboard.writeText(citation).then(() => {
+                const toast = document.getElementById('toastMsg');
+                toast.classList.add('show');
+                setTimeout(() => { toast.classList.remove('show'); }, 2000);
+            });
+        }
+    }
+
+    function closeModal() { document.getElementById('modal').classList.remove('active'); }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const navLogin = document.getElementById('nav-login');
+        if (navLogin && localStorage.getItem('isLoggedIn') === 'true') {
+            const user = localStorage.getItem('username');
+            navLogin.innerText = '欢迎, ' + user;
+            navLogin.href = '#';
+            navLogin.onclick = function(e) {
+                e.preventDefault();
+                if (confirm('确定要退出登录吗？')) {
+                    localStorage.clear();
+                    location.reload();
+                }
+            };
+        }
+    });
+</script>
+</body>
+</html>
